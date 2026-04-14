@@ -9,3 +9,4 @@ SHA1 (patch-lib_gl__oset.h) = 69fa55daea013dc4835411dbe43516408806259b
 SHA1 (patch-lib_sigsegv.c) = 5f49ac75d55aae5a5ad5530a212ec25e15c679e8
 SHA1 (patch-lib_strerror_override.c) = 29905fecf6c92f75c4999f1e3cb56e14fe2f4aae
 SHA1 (patch-m4_sparcv8+.m4) = 761e592a700ea47ac0ba15d960f073115005dedd
+SHA1 (patch-lib_freadahead.c) = 6553060912ac880cd1c7eb1a62b8acc7d021634f
