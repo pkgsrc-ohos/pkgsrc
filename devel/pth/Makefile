@@ -25,11 +25,11 @@ CONFIGURE_ENV.Darwin+=	ac_cv_typedef_nfds_t=no
 
 PLIST_VARS+=		pthread
 
-.include "../../mk/pthread.buildlink3.mk"
-.if defined(PTHREAD_TYPE) && ${PTHREAD_TYPE} != "native"
-CONFIGURE_ARGS+=	--enable-pthread
-PLIST.pthread=		yes
-.endif
+CONFIGURE_ARGS+=	--disable-pthread
+
+CONFIGURE_ARGS+=	--with-mctx-mth=sjlj
+CONFIGURE_ARGS+=	--with-mctx-dsp=ssjlj
+CONFIGURE_ARGS+=	--with-mctx-stk=sas
 
 INSTALLATION_DIRS=	share/doc/pth
 
