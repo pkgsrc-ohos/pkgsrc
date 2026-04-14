@@ -356,7 +356,7 @@ __archivebuild: .USE
 __archiveinstall: .USE
 	${INSTALL} ${RENAME} ${PRESERVE} ${COPY} ${INSTPRIV} -o ${LIBOWN} \
 	    -g ${LIBGRP} -m 600 ${.ALLSRC} ${.TARGET}
-	${RANLIB} -t ${.TARGET}
+	${RANLIB} ${.TARGET}
 	chmod ${LIBMODE} ${.TARGET}
 
 DPSRCS+=	${SRCS:M*.l:.l=.c} ${SRCS:M*.y:.y=.c}
