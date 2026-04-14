@@ -43,8 +43,21 @@ _PKG_ARGS_PACKAGE+=	-u ${REAL_ROOT_USER} -g ${REAL_ROOT_GROUP}
 ${STAGE_PKGFILE}: ${_CONTENTS_TARGETS}
 	${RUN}								\
 	${STEP_MSG} "Creating binary package ${.TARGET}";		\
-	${TEST} -d ${.TARGET:H} || ${MKDIR} ${.TARGET:H};		\
-	${_ULIMIT_CMD}							\
+	${TEST} -d ${.TARGET:H} || ${MKDIR} ${.TARGET:H}
+.if !empty(OHOS_CODE_SIGN:M[Yy][Ee][Ss])
+	${RUN} \
+	if [ -d "${DESTDIR}${PREFIX}" ]; then \
+		cd ${DESTDIR}${PREFIX} && \
+		find . -type f \( -perm -0111 -o -name "*.so*" \) | while read FILE; do \
+			if file -b "$$FILE" | grep -iqE "elf|sharedlib"; then \
+				echo "Signing binary file $$FILE (OHOS binary-sign-tool)"; \
+				binary-sign-tool sign -inFile "$$FILE" -outFile "$$FILE" -selfSign 1 && \
+				chmod 0755 "$$FILE"; \
+			fi; \
+		done; \
+	fi
+.endif
+	${RUN} ${_ULIMIT_CMD}						\
 	tmpname=${.TARGET:S,${PKG_SUFX}$,.tmp${PKG_SUFX},};		\
 	if ! ${PKG_CREATE} ${_PKG_ARGS_PACKAGE} "$$tmpname"; then	\
 		exitcode=$$?; ${RM} -f "$$tmpname"; exit $$exitcode;	\
