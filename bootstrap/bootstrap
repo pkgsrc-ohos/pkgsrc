@@ -1169,6 +1169,17 @@ if [ -n "$prefer_native" ]; then
 	echo "" >> ${TARGET_MKCONF}
 fi
 
+if [[ -f "/lib/ld-musl-aarch64.so.1" ]]
+then
+	echo "DL_TYPE=                native" >> ${TARGET_MKCONF}
+	echo "DL_LIBS=" >> ${TARGET_MKCONF}
+	echo "BUILDLINK_TRANSFORM+=   rm:-ldl" >> ${TARGET_MKCONF}
+	echo "USE_BUILTIN.dl=         yes" >> ${TARGET_MKCONF}
+	echo "BUILTIN_LIB_FOUND.dl=   yes" >> ${TARGET_MKCONF}
+	echo "CHECK_BUILTIN.dl=       no" >> ${TARGET_MKCONF}
+	echo "" >> ${TARGET_MKCONF}
+fi
+
 BOOTSTRAP_MKCONF=${wrkdir}/mk.conf
 cp ${TARGET_MKCONF} ${BOOTSTRAP_MKCONF}
 
